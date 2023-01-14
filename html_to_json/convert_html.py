@@ -77,8 +77,8 @@ def _iterate(
                         element_id += 1
 
                     # record the element's tag
-                    if part.name:
-                        new_json_output_for_subparts['_tag'] = part.name
+                    # if part.name:
+                    new_json_output_for_subparts['_tag'] = part.name
 
                     # increment the count
                     count += 1
@@ -134,6 +134,9 @@ def iterate(json_output: dict, visited: set = None) -> Iterator[dict]:
     if json_output.get('_id') is not None:
         if json_output['_id'] in visited:
             return
+
+        if json_output.get('_tag') is None:
+            json_output['_tag'] = 'root'
 
         visited.add(json_output['_id'])
         yield json_output

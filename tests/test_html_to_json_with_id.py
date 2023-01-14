@@ -1,3 +1,4 @@
+import os.path
 import unittest
 
 from html_to_json import convert, iterate
@@ -5,7 +6,7 @@ from html_to_json import convert, iterate
 
 class TestHtmlToJsonWithId(unittest.TestCase):
     def setUp(self):
-        self.html_string = """<div class="col-md-4 tags-box">
+        self.html_strings = ["""<div class="col-md-4 tags-box">
 
                 <h2>Top Ten tags</h2>
 
@@ -50,28 +51,32 @@ class TestHtmlToJsonWithId(unittest.TestCase):
                 </span>
 
 
-        </div>"""
+        </div>"""]
+
+        with open(os.path.join(os.path.dirname(__file__), 'data', 'http___quotes_toscrape_com_.html'), 'r') as f:
+            self.html_strings.append(f.read())
 
     def test_convert(self):
-        output_json = convert(self.html_string, debug=False, with_id=True)
+        output_json = convert(self.html_strings[0], debug=False, with_id=True)
         # print(output_json)
         self.assertTrue(isinstance(output_json, dict))
         self.assertTrue(isinstance(output_json.get('div'), list))
-        for key in ['_attributes', '_id']:
+        for key in ['_attributes', '_id', '_tag']:
             self.assertTrue(key in output_json.get('div')[0])
 
     def test_iterate(self):
-        output_json = convert(self.html_string, debug=False, with_id=True)
+        for html_string in self.html_strings:
+            output_json = convert(html_string, debug=False, with_id=True)
 
-        ids = []
-        for item in iterate(output_json):
-            self.assertTrue(isinstance(item, dict))
-            self.assertTrue(isinstance(item.get('_id'), int))
-            self.assertTrue(isinstance(item.get('_tag'), str))
-            ids.append(item.get('_id'))
-        assert len(ids) > 0
-        ids = sorted(ids)
-        self.assertTrue(ids == list(range(len(ids))))
+            ids = []
+            for item in iterate(output_json):
+                self.assertTrue(isinstance(item, dict))
+                self.assertTrue(isinstance(item.get('_id'), int))
+                self.assertTrue(isinstance(item.get('_tag'), str))
+                ids.append(item.get('_id'))
+            assert len(ids) > 0
+            ids = sorted(ids)
+            self.assertTrue(ids == list(range(len(ids))))
 
 
 if __name__ == '__main__':
