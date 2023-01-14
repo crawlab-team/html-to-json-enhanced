@@ -1,7 +1,7 @@
 import os.path
 import unittest
 
-from html_to_json import convert, iterate
+from html_to_json_enhanced import convert, iterate
 
 
 class TestHtmlToJsonWithId(unittest.TestCase):

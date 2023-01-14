@@ -17,12 +17,12 @@ pip install html-to-json
 ### HTML to JSON
 
 ```python
-import html_to_json
+import html_to_json_enhanced
 
 html_string = """<head>
     <title>Test site</title>
     <meta charset="UTF-8"></head>"""
-output_json = html_to_json.convert(html_string)
+output_json = html_to_json_enhanced.convert(html_string)
 print(output_json)
 ```
 
@@ -95,7 +95,7 @@ Tables of type A and B are diagrammed below:
 This code:
 
 ```python
-import html_to_json
+import html_to_json_enhanced
 
 html_string = """<table>
     <tr>
@@ -111,14 +111,14 @@ html_string = """<table>
         <td><a href="/config/034a37b2a2307f876adc9538986d7b86">034a37b2a2307f876adc9538986d7b86</a></td>
         <td>July 9, 2018, 6:25 a.m.</td>
     </tr>
-    
+
     <tr>
         <td>25547</td>
         <td><a href="/stats/DarkComet/">DarkComet</a></td>
         <td><a href="/config/706eeefbac3de4d58b27d964173999c3">706eeefbac3de4d58b27d964173999c3</a></td>
         <td>July 7, 2018, 6:25 a.m.</td>
     </tr></table>"""
-tables = html_to_json.convert_tables(html_string)
+tables = html_to_json_enhanced.convert_tables(html_string)
 print(tables)
 ```
 

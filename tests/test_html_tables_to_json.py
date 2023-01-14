@@ -2,7 +2,7 @@
 
 import os
 
-import html_to_json
+import html_to_json_enhanced
 
 
 def _read_file(file_name):
@@ -16,13 +16,13 @@ def test_headless_table_1():
 <tr><td>A</td><td>B</td></tr>
 <tr><td>C</td><td>D</td></tr>
 </table>'''
-    json_output = html_to_json.convert_tables(html_string)
+    json_output = html_to_json_enhanced.convert_tables(html_string)
     assert json_output == [[['A', 'B'], ['C', 'D']]]
 
 
 def test_content_2():
     html_string = _read_file('./data/test2.html')
-    json_output = html_to_json.convert_tables(html_string)
+    json_output = html_to_json_enhanced.convert_tables(html_string)
     assert json_output == [
         [
             {
@@ -187,21 +187,21 @@ def test_simple_class_a_table():
             <th>MD5</th>
             <th>Date Added</th>
         </tr>
-        
+
         <tr>
             <td>25548</td>
             <td><a href="/stats/DarkComet/">DarkComet</a></td>
             <td><a href="/config/034a37b2a2307f876adc9538986d7b86">034a37b2a2307f876adc9538986d7b86</a></td>
             <td>July 9, 2018, 6:25 a.m.</td>
         </tr>
-        
+
         <tr>
             <td>25547</td>
             <td><a href="/stats/DarkComet/">DarkComet</a></td>
             <td><a href="/config/706eeefbac3de4d58b27d964173999c3">706eeefbac3de4d58b27d964173999c3</a></td>
             <td>July 7, 2018, 6:25 a.m.</td>
         </tr></table>"""
-    tables = html_to_json.convert_tables(html_string)
+    tables = html_to_json_enhanced.convert_tables(html_string)
     assert tables == [
         [
             {
@@ -243,7 +243,7 @@ def test_simple_class_b_table():
                     <td>Robots lovingly delivered by <a href="https://robohash.org">robohash.org</a></td>
                 </tr>
         </table>"""
-    tables = html_to_json.convert_tables(html_string)
+    tables = html_to_json_enhanced.convert_tables(html_string)
     assert tables == [
         {
             'Malware Family': 'DarkComet',
@@ -278,7 +278,7 @@ def test_headless_table_2():
                     <td>Robots lovingly delivered by <a href="https://robohash.org">robohash.org</a></td>
                 </tr>
         </table>"""
-    json_output = html_to_json.convert_tables(html_string)
+    json_output = html_to_json_enhanced.convert_tables(html_string)
     assert json_output == [
         [
             ['Malware Family', 'DarkComet'],
@@ -314,7 +314,7 @@ def test_headless_table__record_children():
                     <td>Robots lovingly delivered by <a href="https://robohash.org">robohash.org</a></td>
                 </tr>
         </table>"""
-    json_output = html_to_json.convert_tables(html_string, record_children=True)
+    json_output = html_to_json_enhanced.convert_tables(html_string, record_children=True)
     assert json_output == [
         [
             [
@@ -345,21 +345,21 @@ def test_record_children_class_a_table():
             <th>MD5</th>
             <th>Date Added</th>
         </tr>
-        
+
         <tr>
             <td>25548</td>
             <td><a href="/stats/DarkComet/">DarkComet</a></td>
             <td><a href="/config/034a37b2a2307f876adc9538986d7b86">034a37b2a2307f876adc9538986d7b86</a></td>
             <td>July 9, 2018, 6:25 a.m.</td>
         </tr>
-        
+
         <tr>
             <td>25547</td>
             <td><a href="/stats/DarkComet/">DarkComet</a></td>
             <td><a href="/config/706eeefbac3de4d58b27d964173999c3">706eeefbac3de4d58b27d964173999c3</a></td>
             <td>July 7, 2018, 6:25 a.m.</td>
         </tr></table>"""
-    tables = html_to_json.convert_tables(html_string, record_children=True)
+    tables = html_to_json_enhanced.convert_tables(html_string, record_children=True)
     print("tables {}".format(tables))
     assert tables == [
         [
@@ -420,7 +420,7 @@ def test_record_children_class_b_table():
                     <td>Robots lovingly delivered by <a href="https://robohash.org">robohash.org</a></td>
                 </tr>
         </table>"""
-    tables = html_to_json.convert_tables(html_string, record_children=True)
+    tables = html_to_json_enhanced.convert_tables(html_string, record_children=True)
     print("tables {}".format(tables))
     assert tables == [
         {
@@ -440,7 +440,7 @@ def test_record_children_class_b_table():
 
 def test_html_with_two_tables():
     html_string = _read_file('./data/test_two_tables.html')
-    tables = html_to_json.convert_tables(html_string)
+    tables = html_to_json_enhanced.convert_tables(html_string)
     assert len(tables) == 2
     assert tables[1] == [
         {
@@ -469,5 +469,5 @@ def test_html_with_two_tables():
 
 def test_tables_with_thead():
     html_string = _read_file('./data/Free Proxy Lists.html')
-    tables = html_to_json.convert_tables(html_string)
+    tables = html_to_json_enhanced.convert_tables(html_string)
     assert len(tables) == 2

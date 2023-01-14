@@ -2,7 +2,7 @@
 
 import os
 
-import html_to_json
+import html_to_json_enhanced
 
 
 def _read_file(file_name):
@@ -16,12 +16,12 @@ def _read_file(file_name):
 
 def test_content_1():
     html_string = _read_file('./data/test1.html')
-    json_output = html_to_json.convert(html_string)
+    json_output = html_to_json_enhanced.convert(html_string)
 
 
 def test_content_2():
     html_string = _read_file('./data/test2.html')
-    json_output = html_to_json.convert(html_string)
+    json_output = html_to_json_enhanced.convert(html_string)
     print('json_output {}'.format(json_output))
     assert json_output['html'][0]['body'][0]['div'][0]['div'][3]['table'][0]['tr'][1:] == [
         {
@@ -574,7 +574,7 @@ def test_simple_html1():
     <link href='/static/css/style.css' rel='stylesheet'>
     <script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script>
 </head>"""
-    json_output = html_to_json.convert(html_string)
+    json_output = html_to_json_enhanced.convert(html_string)
     print('json_output {}'.format(json_output))
     assert json_output == {
         'head': [
@@ -641,7 +641,7 @@ def test_simple_html2():
           </ul>
         </li>
       </ul>"""
-    json_output = html_to_json.convert(html_string)
+    json_output = html_to_json_enhanced.convert(html_string)
     print('json_output {}'.format(json_output))
     assert json_output == {
         'ul': [
@@ -754,7 +754,7 @@ def test_simple_html2():
 
 def test_missing_content():
     html_string = _read_file('./data/test3_missing_content.html')
-    json_output = html_to_json.convert(html_string)
+    json_output = html_to_json_enhanced.convert(html_string)
     print('json_output {}'.format(json_output))
     assert 'hxxp://ioa993u.space/vnc.exe' in str(json_output)
     assert '2018-08-22' in str(json_output)
@@ -764,7 +764,7 @@ def test_multiple_text_entries():
     """Make sure multiple text entries are handled well."""
     html_string = """<p>bingo</p>test<br/>
 ing<br/>"""
-    json_output = html_to_json.convert(html_string)
+    json_output = html_to_json_enhanced.convert(html_string)
     assert json_output == {
         'br': [{}, {}],
         'p': [{'_value': 'bingo'}],
@@ -774,7 +774,7 @@ ing<br/>"""
 
 def test_pdfexaminer():
     html_string = _read_file('./data/pdfexaminer.com.html')
-    json_output = html_to_json.convert(html_string)
+    json_output = html_to_json_enhanced.convert(html_string)
     json_output_string = str(json_output)
     assert '33.0@4675: pdf.exploit Corrupted JPEG2000' in json_output_string
     assert '1.0@25957: suspicious.obfuscation using app.setTimeOut to eval code' in json_output_string
@@ -784,7 +784,7 @@ def test_empty_spaces():
     """Make sure empty spaces are not recorded as values."""
     html_string = """<p>bingo</p>test  <br/>   <br/>
 ing<br/>"""
-    json_output = html_to_json.convert(html_string)
+    json_output = html_to_json_enhanced.convert(html_string)
     assert json_output == {
         'br': [{}, {}, {}],
         'p': [{'_value': 'bingo'}],
@@ -795,14 +795,14 @@ ing<br/>"""
 def test_not_capturing_element_values():
     html_string = """<p id='foo'>bingo</p>test  <br/>   <br/>
 ing<br/>"""
-    json_output = html_to_json.convert(html_string, capture_element_values=False)
+    json_output = html_to_json_enhanced.convert(html_string, capture_element_values=False)
     assert json_output == {'br': [{}, {}, {}], 'p': [{'_attributes': {'id': 'foo'}}]}
 
 
 def test_not_capturing_element_attributes():
     html_string = """<p id='foo'>bingo</p>test  <br/>   <br/>
 ing<br/>"""
-    json_output = html_to_json.convert(html_string, capture_element_attributes=False)
+    json_output = html_to_json_enhanced.convert(html_string, capture_element_attributes=False)
     assert json_output == {
         'br': [{}, {}, {}],
         'p': [{'_value': 'bingo'}],
@@ -813,5 +813,5 @@ ing<br/>"""
 def test_capturing_neither_attributes_nor_values():
     html_string = """<p id='foo'>bingo</p>test  <br/>   <br/>
 ing<br/>"""
-    json_output = html_to_json.convert(html_string, capture_element_values=False, capture_element_attributes=False)
+    json_output = html_to_json_enhanced.convert(html_string, capture_element_values=False, capture_element_attributes=False)
     assert json_output == {'br': [{}, {}, {}], 'p': [{}]}

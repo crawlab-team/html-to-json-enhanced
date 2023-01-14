@@ -12,22 +12,18 @@ test_requirements = [
 ]
 
 setup(
-    name='html_to_json',
-    version='2.0.0',
+    name='html-to-json-enhanced',
+    version='1.0.0',
     description='Convert html to json.',
     long_description=readme,
     long_description_content_type='text/markdown',
-    author='Floyd Hightower',
+    author='Marvin Zhang',
     author_email='',
     url='https://github.com/fhightower/html-to-json',
     project_urls={
-        'Documentation': 'https://github.com/fhightower/html-to-json',
-        'Say Thanks!': 'https://saythanks.io/to/floyd.hightower27%40gmail.com',
-        'Source': 'https://github.com/fhightower/html-to-json',
-        'Tracker': 'https://github.com/fhightower/html-to-json/issues',
-        'PyPi': 'https://pypi.org/project/html-to-json/',
-        'CI': 'https://travis-ci.com/fhightower/html-to-json.svg?branch=main',
-        'Changelog': 'https://github.com/fhightower/html-to-json/blob/main/CHANGELOG.md',
+        'Source': 'https://github.com/crawlab-team/html-to-json-enhanced',
+        'Tracker': 'https://github.com/crawlab-team/html-to-json/issues',
+        'PyPi': 'https://pypi.org/project/html-to-json-enhanced/',
     },
     packages=find_packages(exclude=('tests', 'docs')),
     include_package_data=True,
