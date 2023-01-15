@@ -57,8 +57,8 @@ class TestHtmlToJsonWithId(unittest.TestCase):
             self.html_strings.append(f.read())
 
     def test_convert(self):
-        output_json = convert(self.html_strings[0], debug=False, with_id=True)
-        # print(output_json)
+        output_json = convert(self.html_strings[0])
+        print(output_json)
         self.assertTrue(isinstance(output_json, dict))
         self.assertTrue(isinstance(output_json.get('div'), list))
         for key in ['_attributes', '_id', '_tag']:
@@ -73,6 +73,8 @@ class TestHtmlToJsonWithId(unittest.TestCase):
                 self.assertTrue(isinstance(item, dict))
                 self.assertTrue(isinstance(item.get('_id'), int))
                 self.assertTrue(isinstance(item.get('_tag'), str))
+                if item.get('_parent') is not None:
+                    self.assertTrue(isinstance(item.get('_parent'), int))
                 ids.append(item.get('_id'))
             assert len(ids) > 0
             ids = sorted(ids)
