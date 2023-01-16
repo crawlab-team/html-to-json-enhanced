@@ -13,7 +13,7 @@ test_requirements = [
 
 setup(
     name='html-to-json-enhanced',
-    version='1.0.1',
+    version='1.0.2',
     description='Convert html to json.',
     long_description=readme,
     long_description_content_type='text/markdown',
