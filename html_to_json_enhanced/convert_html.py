@@ -53,7 +53,7 @@ class HtmlConverter(object):
                 json_output['_id'] = self._get_element_id()
 
             # record the element's parent id
-            if with_id and parent_id is not None and json_output['_parent'] is None:
+            if with_id and parent_id is not None and json_output.get('_parent') is None:
                 json_output['_parent'] = parent_id
 
     def iterate(
@@ -154,7 +154,7 @@ def convert(
     ).convert()
 
 
-def iterate(json_output: dict, visited: set = None, parent: dict = None) -> Iterator[dict]:
+def iterate(json_output: dict, visited: set = None) -> Iterator[dict]:
     if visited is None:
         visited = set()
 
@@ -173,5 +173,5 @@ def iterate(json_output: dict, visited: set = None, parent: dict = None) -> Iter
             continue
 
         for child in children:
-            for grandchild in iterate(child, visited, json_output):
+            for grandchild in iterate(child, visited):
                 yield grandchild

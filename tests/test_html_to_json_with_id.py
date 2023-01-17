@@ -31,7 +31,7 @@ class TestHtmlToJsonWithId(unittest.TestCase):
         ]
 
         with open(os.path.join(os.path.dirname(__file__), 'data', 'http___quotes_toscrape_com_.html'), 'r') as f:
-            self.html_strings.append(f.read())
+            self.html_strings.append({'html': f.read(), 'max_id': 151})
 
     def test_convert(self):
         output_json = convert(self.html_strings[0].get('html'))
