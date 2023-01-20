@@ -795,7 +795,7 @@ ing<br/>"""
 def test_not_capturing_element_values():
     html_string = """<p id='foo'>bingo</p>test  <br/>   <br/>
 ing<br/>"""
-    json_output = html_to_json_enhanced.convert(html_string, capture_element_values=False)
+    json_output = html_to_json_enhanced.convert(html_string, capture_element_texts=False)
     assert json_output == {'br': [{}, {}, {}], 'p': [{'_attributes': {'id': 'foo'}}]}
 
 
@@ -813,5 +813,5 @@ ing<br/>"""
 def test_capturing_neither_attributes_nor_values():
     html_string = """<p id='foo'>bingo</p>test  <br/>   <br/>
 ing<br/>"""
-    json_output = html_to_json_enhanced.convert(html_string, capture_element_values=False, capture_element_attributes=False)
+    json_output = html_to_json_enhanced.convert(html_string, capture_element_texts=False, capture_element_attributes=False)
     assert json_output == {'br': [{}, {}, {}], 'p': [{}]}

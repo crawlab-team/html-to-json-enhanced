@@ -31,15 +31,20 @@ class TestHtmlToJsonWithId(unittest.TestCase):
         ]
 
         with open(os.path.join(os.path.dirname(__file__), 'data', 'http___quotes_toscrape_com_.html'), 'r') as f:
-            self.html_strings.append({'html': f.read(), 'max_id': 151})
+            self.html_strings.append({'html': f.read(), 'max_id': 150})
 
     def test_convert(self):
         output_json = convert(self.html_strings[0].get('html'))
         print(output_json)
         self.assertTrue(isinstance(output_json, dict))
-        self.assertTrue(isinstance(output_json.get('div'), list))
-        for key in ['_attributes', '_id', '_tag']:
-            self.assertTrue(key in output_json.get('div')[0])
+        self.assertTrue(isinstance(output_json.get('_children'), list))
+        self.assertTrue(isinstance(output_json.get('_children')[0], dict))
+        for key in ['_tag', '_parent', '_id', '_attributes']:
+            self.assertTrue(key in output_json.get('_children')[0].keys())
+        self.assertTrue(isinstance(output_json.get('_children')[0].get('_id'), int))
+        self.assertTrue(isinstance(output_json.get('_children')[0].get('_parent'), int))
+        self.assertTrue(isinstance(output_json.get('_children')[0].get('_tag'), str))
+        self.assertTrue(isinstance(output_json.get('_children')[0].get('_attributes'), dict))
 
     def test_iterate(self):
         for html_string in self.html_strings:
