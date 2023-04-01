@@ -9,12 +9,13 @@ class HtmlConverter(object):
     def __init__(
         self,
         html_section,
-        debug: bool,
-        capture_element_values: bool,
-        capture_element_attributes: bool,
-        with_id: bool,
+        debug: bool = False,
+        capture_element_values: bool = True,
+        capture_element_attributes: bool = True,
+        with_id: bool = True,
     ):
         self.html_section = html_section
+        self.soup = bs4.BeautifulSoup(self.html_section, 'html.parser')
         self.debug = debug
         self.capture_element_texts = capture_element_values
         self.capture_element_attributes = capture_element_attributes
@@ -88,6 +89,7 @@ class HtmlConverter(object):
             # record the element's id
             if self.with_id and json_output.get('_id') is None:
                 json_output['_id'] = self._get_element_id()
+                part.attrs['node-id'] = json_output['_id']
 
             # record the element's parent id
             if self.with_id and parent_id is not None and json_output.get('_parent') is None:
@@ -122,9 +124,7 @@ class HtmlConverter(object):
 
     def convert(self):
         """Convert the html string to json."""
-        soup = bs4.BeautifulSoup(self.html_section, 'html.parser')
-
-        tags = [child for child in soup.contents if isinstance(child, bs4.element.Tag)]
+        tags = [child for child in self.soup.contents if isinstance(child, bs4.element.Tag)]
         if len(tags) == 0:
             raise ValueError('No tags found in html section')
         else:

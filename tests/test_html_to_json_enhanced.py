@@ -2,6 +2,7 @@ import os.path
 import unittest
 
 from html_to_json_enhanced import convert, iterate
+from html_to_json_enhanced.convert_html import HtmlConverter
 
 
 class TestHtmlToJsonWithId(unittest.TestCase):
@@ -67,6 +68,13 @@ class TestHtmlToJsonWithId(unittest.TestCase):
 
             if is_dict:
                 self.assertEqual(html_string.get('max_id'), max(ids))
+
+    def test_html_converter(self):
+        html_converter = HtmlConverter(
+            html_section=self.html_strings[0].get('html'),
+        )
+        html_converter.convert()
+        assert 'node-id' in str(html_converter.soup)
 
 
 if __name__ == '__main__':
